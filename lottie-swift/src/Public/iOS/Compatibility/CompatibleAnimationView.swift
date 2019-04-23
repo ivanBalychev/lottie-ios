@@ -13,26 +13,24 @@ import UIKit
 /// Use in tandem with CompatibleAnimationView when using Lottie in Objective-C
 public final class CompatibleAnimation: NSObject {
 
-  @objc
-  static func named(_ name: String) -> CompatibleAnimation {
-    return CompatibleAnimation(name: name)
-  }
-
-  @objc
-  public init(name: String, bundle: Bundle = Bundle.main) {
-    self.name = name
-    self.bundle = bundle
-    super.init()
-  }
-
-  internal var animation: Animation? {
-    return Animation.named(name, bundle: bundle)
-  }
-
-  // MARK: Private
-
-  private let name: String
-  private let bundle: Bundle
+    @objc
+    public init(filePath: String) {
+        super.init()
+        self._animation = Animation.filepath(filePath)
+    }
+    
+    @objc
+    public init(data:Data) {
+        super.init()
+        self._animation = try? JSONDecoder().decode(Animation.self, from: data)
+    }
+    
+    private var _animation:Animation?
+    
+    internal var animation: Animation? {
+        return _animation
+    }
+  
 }
 
 @objc
