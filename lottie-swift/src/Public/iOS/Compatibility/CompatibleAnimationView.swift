@@ -14,15 +14,15 @@ import UIKit
 public final class CompatibleAnimation: NSObject {
 
     @objc
-    public init(filePath: String) {
+    public init(filePath: String?) {
         super.init()
-        self._animation = Animation.filepath(filePath)
+        if let path = filePath { self._animation = Animation.filepath(path) }
     }
     
     @objc
-    public init(data:Data) {
+    public init(data:Data?) {
         super.init()
-        self._animation = try? JSONDecoder().decode(Animation.self, from: data)
+        if let fileData = data { self._animation = try? JSONDecoder().decode(Animation.self, from: fileData) }
     }
     
     private var _animation:Animation?
